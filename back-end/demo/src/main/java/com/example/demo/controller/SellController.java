@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.demo.model.FilterSellBO;
 import com.example.demo.model.SellBO;
 import com.example.demo.repository.SellRepository;
+import com.example.demo.service.SellService;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
@@ -32,9 +35,17 @@ public class SellController {
 	@Autowired
 	private SellRepository repository;
 	
+	@Autowired
+	private SellService service;
+	
 	@GetMapping
-	public List<SellBO> list() {
-		return repository.findAll();
+	public ResponseEntity<List<SellBO>> list(
+			@RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+		List<SellBO> list = service.getAllSells(pageNo, pageSize, sortBy);
+		 
+        return new ResponseEntity<List<SellBO>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
