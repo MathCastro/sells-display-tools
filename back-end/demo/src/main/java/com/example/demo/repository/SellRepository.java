@@ -13,7 +13,9 @@ public interface SellRepository extends PagingAndSortingRepository<SellBO, Long>
 	Optional<SellBO> findByName(String name);
 	
 //	@Query("SELECT u FROM User u WHERE u.status = ?1")
-	@Query("SELECT s FROM SellBO s WHERE s.name like %?1%")
+	@Query("SELECT s, u FROM SellBO s JOIN s.userBO u WHERE s.name like %?1%"
+			+ "OR s.value like %?1%"
+			+ "OR u.username like %?1%")
 	Optional<List<SellBO>> filterSellsByName(String name);
 	
 }
