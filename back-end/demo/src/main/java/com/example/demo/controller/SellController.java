@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +40,13 @@ public class SellController {
 	private SellService service;
 	
 	@GetMapping
-	public ResponseEntity<List<SellBO>> list(
+	public ResponseEntity<Page<SellBO>> list(
 			@RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy) {
-		List<SellBO> list = service.getAllSells(pageNo, pageSize, sortBy);
+		Page<SellBO> list = service.getAllSells(pageNo, pageSize, sortBy);
 		 
-        return new ResponseEntity<List<SellBO>>(list, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<Page<SellBO>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
@@ -75,9 +76,9 @@ public class SellController {
 	
 	@PostMapping("/filter")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Optional<SellBO> filter(@Valid @RequestBody FilterSellBO sell) {
-		Optional<SellBO> existingSell = repository
-				.findByName(sell.getFilter());
+	public Optional<List<SellBO>> filter(@Valid @RequestBody FilterSellBO sell) {
+		Optional<List<SellBO>> existingSell = repository
+				.filterSellsByName(sell.getFilter());
 		
 		return existingSell;
 	}

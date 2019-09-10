@@ -1,0 +1,25 @@
+.card {
+  margin: auto;
+  width: 90%;
+  margin-top: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+:host >>> .mat-form-field-wrapper {
+    width: 80%;
+}
+
+.create {
+    background-color: rgb(26, 26, 26);
+    color: white;
+}

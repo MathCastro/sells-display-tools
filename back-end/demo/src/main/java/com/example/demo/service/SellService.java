@@ -18,16 +18,16 @@ public class SellService
     @Autowired
     SellRepository repository;
      
-    public List<SellBO> getAllSells(Integer pageNo, Integer pageSize, String sortBy)
+    public Page<SellBO> getAllSells(Integer pageNo, Integer pageSize, String sortBy)
     {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
  
         Page<SellBO> pagedResult = repository.findAll(paging);
          
         if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
+            return pagedResult;
         } else {
-            return new ArrayList<SellBO>();
+            return null;
         }
     }
 }
