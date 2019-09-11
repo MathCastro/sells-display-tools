@@ -40,6 +40,7 @@ export class ListSellComponent implements OnInit {
   getSells(): void {
     this.SellService.getSells()
       .subscribe(sells => {
+        console.log(sells)
         this.sells = sells
         this.dataSource = new MatTableDataSource(sells.content.slice());
         this.pageIndex = sells.number
@@ -57,8 +58,12 @@ export class ListSellComponent implements OnInit {
     if(value.length > 0){
       this.SellService.filterSells(value)
         .subscribe(sells => {
-          this.sells.content = sells
-          this.table.dataSource = sells
+          console.log(sells)
+          this.sells = sells
+          this.dataSource = new MatTableDataSource(sells.content.slice());
+          this.pageIndex = sells.number
+          this.pageSize = sells.size
+          this.length = sells.totalElements
           this.table.renderRows()
         });
     } else {
@@ -67,7 +72,6 @@ export class ListSellComponent implements OnInit {
   }
 
   getServerData(event: any) {
-    console.log(event)
     this.SellService.getSells(event.pageSize, event.pageIndex)
       .subscribe(sells => {
         this.sells = sells

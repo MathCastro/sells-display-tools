@@ -30,4 +30,17 @@ public class SellService
             return null;
         }
     }
+    
+    public Page<SellBO> getAllSellsFiltered(Integer pageNo, Integer pageSize, String sortBy, String value)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+ 
+        Page<SellBO> pagedResult = repository.filterSells(value, paging);
+         
+        if(pagedResult.hasContent()) {
+            return pagedResult;
+        } else {
+            return null;
+        }
+    }
 }

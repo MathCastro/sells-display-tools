@@ -83,6 +83,17 @@ public class SellController {
 		return existingSell;
 	}
 	
+	@GetMapping("/filter-sells")
+	public ResponseEntity<Page<SellBO>> filterSells(
+			@RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "") String value) {
+		Page<SellBO> list = service.getAllSellsFiltered(pageNo, pageSize, sortBy, value);
+		 
+        return new ResponseEntity<Page<SellBO>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+	
 	@PutMapping
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public ResponseEntity<SellBO> update(@Valid @RequestBody SellBO sell) {
