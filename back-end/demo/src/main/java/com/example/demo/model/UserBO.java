@@ -30,6 +30,7 @@ public class UserBO {
 	@NotEmpty
 	@Size(max = 50)
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 	@JsonIgnore
 	@OneToMany(mappedBy = "userBO", cascade = CascadeType.ALL)

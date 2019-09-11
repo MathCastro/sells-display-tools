@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListSellComponent } from './list-sell/list-sell.component';
 import { EditSellComponent } from './edit-sell/edit-sell.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -55,6 +56,7 @@ import { CreateSellComponent } from './create-sell/create-sell.component';
     CreateSellComponent
   ],
   imports: [
+    ReactiveFormsModule,
     MatIconModule,
     [MatButtonModule, MatCheckboxModule],
     [BrowserAnimationsModule],

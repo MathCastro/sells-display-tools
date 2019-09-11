@@ -74,15 +74,6 @@ public class SellController {
 		return repository.save(sell);
 	}
 	
-	@PostMapping("/filter")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Optional<List<SellBO>> filter(@Valid @RequestBody FilterSellBO sell) {
-		Optional<List<SellBO>> existingSell = repository
-				.filterSellsByName(sell.getFilter());
-		
-		return existingSell;
-	}
-	
 	@GetMapping("/filter-sells")
 	public ResponseEntity<Page<SellBO>> filterSells(
 			@RequestParam(defaultValue = "0") Integer pageNo,

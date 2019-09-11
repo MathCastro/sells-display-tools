@@ -1,6 +1,6 @@
 export interface Sell {
-    id: number;
+    id?: number;
     value: string;
     name: string;
-    user: any;
+    userBO: any;
 }

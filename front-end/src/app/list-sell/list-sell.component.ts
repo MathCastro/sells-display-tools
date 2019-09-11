@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Sell } from '../model/SellBO';
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { SellService } from '../service/SellService';
 import { Router } from '@angular/router';
 import { MatTable, MatTableDataSource, Sort, MatPaginator, PageEvent } from '@angular/material';
@@ -19,11 +19,12 @@ export class ListSellComponent implements OnInit {
   dataSource: MatTableDataSource<Sell>;
   selection = new SelectionModel<Sell>(true, []);
   pageEvent: PageEvent;
-  pageIndex:number;
-  pageSize:number;
-  length:number;
-  @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  pageIndex: number;
+  pageSize: number;
+  length: number;
+  filterField: string = "";
+  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   constructor(
     private router: Router,
     private SellService: SellService
@@ -55,7 +56,8 @@ export class ListSellComponent implements OnInit {
   }
 
   filter(value: string) {
-    if(value.length > 0){
+    this.filterField = value;
+    if (this.filterField.length > 0) {
       this.SellService.filterSells(value)
         .subscribe(sells => {
           console.log(sells)
@@ -72,7 +74,8 @@ export class ListSellComponent implements OnInit {
   }
 
   getServerData(event: any) {
-    this.SellService.getSells(event.pageSize, event.pageIndex)
+    if (this.filterField.length > 0) {
+      this.SellService.filterSells(this.filterField, event.pageSize, event.pageIndex)
       .subscribe(sells => {
         this.sells = sells
         this.dataSource = new MatTableDataSource(sells.content.slice());
@@ -80,6 +83,16 @@ export class ListSellComponent implements OnInit {
         this.pageSize = sells.size
         this.length = sells.totalElements
       });
+    } else {
+      this.SellService.getSells(event.pageSize, event.pageIndex)
+        .subscribe(sells => {
+          this.sells = sells
+          this.dataSource = new MatTableDataSource(sells.content.slice());
+          this.pageIndex = sells.number
+          this.pageSize = sells.size
+          this.length = sells.totalElements
+        });
+    }
   }
 
   createElement() {

@@ -1,27 +1,29 @@
-<div>
+<div style="height: 100%; padding: 20px; background-color: rgb(222, 222, 222);">
     <mat-card class="card">
         <h1 class="header">Create</h1>
-        <div>
-            <mat-form-field class="input">
-                <input matInput placeholder="Name">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field class="input">
-                <input matInput placeholder="Value">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field class="input">
-                <mat-select placeholder="User">
-                    <mat-option *ngFor="let user of users" [value]="user.id">
-                        {{user.username}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="input">
-            <button mat-button class="create" (click)="createElement()">Create</button>
-        </div>
+        <form [formGroup]="sellForm" (ngSubmit)="onSubmit()">
+            <div>
+                <mat-form-field class="input">
+                    <input formControlName="name" matInput placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="input">
+                    <input formControlName="value" matInput placeholder="Value">
+                </mat-form-field>
+            </div>
+            <div formGroupName="userBO">
+                <mat-form-field class="input">
+                    <mat-select formControlName="id" placeholder="User">
+                        <mat-option *ngFor="let user of users" [value]="user.id">
+                            {{user.username}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="input">
+                <button type="submit" [disabled]="!sellForm.valid" mat-button class="create">Create</button>
+            </div>
+        </form>
     </mat-card>
 </div>

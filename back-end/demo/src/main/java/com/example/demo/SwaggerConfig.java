@@ -15,7 +15,7 @@ public class SwaggerConfig {
        
        Docket docket =  new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.appsdeveloperblog.app.ws"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo"))
                 .paths(PathSelectors.any())
                 .build();
        

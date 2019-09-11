@@ -1,5 +1,5 @@
 import { Sell } from '../model/SellBO';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SellPaginator } from '../model/SellPaginator';
@@ -9,6 +9,10 @@ export class SellService {
     constructor(private http: HttpClient) { }
 
     baseUrl = "http://localhost:8080";
+
+    headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
 
     getSells(pageSize?: number, pageNo?: number): Observable<SellPaginator> {
         const size = pageSize == null ? 5 : pageSize
@@ -40,7 +44,7 @@ export class SellService {
     //     return this.http.post<Sell[]>(this.baseUrl + '/sell/filter', argument)
     // }
 
-    createSell(sell: Sell) {
-        this.http.post(this.baseUrl + '/sell', sell)
+    createSell(sell: Sell): Observable<Sell> {
+        return this.http.post<Sell>(this.baseUrl + '/sell', JSON.stringify(sell), {headers: this.headers})
     }
 }
